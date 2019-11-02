@@ -20,9 +20,16 @@ const updateShoppingCart = (state, action) => {
         case 'REMOVE_ITEM_FROM_CART':
             const bookId = action.payload;
             return {
-                orderTotal: 0,
+                ...state.shoppingCart,
                 cartItems: state.shoppingCart.cartItems.filter(({ id }) => id !== bookId)
             }
+        
+        case 'CALCULATE_TOTAL':
+            const orderTotal = state.shoppingCart.cartItems.reduce((total, item) => (total + item.total), 0);
+            return {
+                ...state.shoppingCart,
+                orderTotal
+            };
 
         default:
             return state.shoppingCart;
@@ -62,7 +69,7 @@ const updateCart = (state, bookId) => {
         id: book.id,
         name: book.title,
         count: 1,
-        total: 150,
+        total: book.price,
         price: book.price
     }
 
@@ -84,10 +91,11 @@ const increaseAmount = (state, bookId) => {
     const newUpdatedItem = {
         ...cartItems[updatedItemIndex],
         count: cartItems[updatedItemIndex].count + 1,
+        total: cartItems[updatedItemIndex].total + cartItems[updatedItemIndex].price
     }
 
     return {
-        orderTotal: 0,
+        ...state.shoppingCart,
         cartItems: [
             ...cartItems.slice(0, updatedItemIndex),
             newUpdatedItem,
@@ -111,10 +119,11 @@ const decreaseAmount = (state, bookId) => {
     const newUpdatedItem = {
         ...cartItems[updatedItemIndex],
         count: cartItems[updatedItemIndex].count - 1,
+        total: cartItems[updatedItemIndex].total - cartItems[updatedItemIndex].price
     }
 
     return {
-        orderTotal: 0,
+        ...state.shoppingCart,
         cartItems: [
             ...cartItems.slice(0, updatedItemIndex),
             newUpdatedItem,
