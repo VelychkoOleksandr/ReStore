@@ -46,6 +46,10 @@ const deleteItemFromCart = (bookId) => {
     }
 }
 
+const calculateTotal = () => ({
+    type: 'CALCULATE_TOTAL'
+});
+
 const fetchBooks = (bookstoreService, dispatch) => () => {
     dispatch(booksRequested());
     bookstoreService.getBooks()
@@ -58,5 +62,6 @@ export {
     bookAddedToCart,
     increaseAmountInCart,
     decreaseAmountInCart,
-    deleteItemFromCart
+    deleteItemFromCart,
+    calculateTotal
 }
