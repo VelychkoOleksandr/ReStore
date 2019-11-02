@@ -1,9 +1,9 @@
 import React from 'react';
 import './shopping-cart-table.css';
 import { connect } from 'react-redux';
-import { increaseAmountInCart, decreaseAmountInCart, deleteItemFromCart } from "../../actions";
+import { increaseAmountInCart, decreaseAmountInCart, deleteItemFromCart, calculateTotal } from "../../actions";
 
-const ShoppingCartTable = ({ items, total, onIncrease, onDecrease, onDelete }) => {
+const ShoppingCartTable = ({ items, total, onIncrease, onDecrease, onDelete, calculateTotal }) => {
   const renderRow = (item, index) => {
     const { id, title, count, total } = item;
     return (
@@ -13,15 +13,24 @@ const ShoppingCartTable = ({ items, total, onIncrease, onDecrease, onDelete }) =
         <td>{count}</td>
         <td>${total}</td>
         <td>
-          <button onClick={() => onDelete(id)}
+          <button onClick={() => {
+            onDelete(id);
+            calculateTotal()
+          }}
             className="btn btn-outline-danger btn-sm float-right">
             <i className="fa fa-trash-o" />
           </button>
-          <button onClick={() => onIncrease(id)}
+          <button onClick={() => {
+            onIncrease(id);
+            calculateTotal()
+          }}
             className="btn btn-outline-success btn-sm float-right">
             <i className="fa fa-plus-circle" />
           </button>
-          <button onClick={() => onDecrease(id)}
+          <button onClick={() => {
+            onDecrease(id);
+            calculateTotal()
+          }}
             className="btn btn-outline-warning btn-sm float-right">
             <i className="fa fa-minus-circle" />
           </button>
@@ -66,19 +75,8 @@ const mapStatetoProps = ({ shoppingCart: { cartItems, orderTotal }}) => ({
 const mapDispatchToProps =  {
   onIncrease: increaseAmountInCart,
   onDecrease: decreaseAmountInCart,
-  onDelete: deleteItemFromCart
+  onDelete: deleteItemFromCart,
+  calculateTotal
 }
-  // return {
-  //   onIncrease: (id) => {
-  //     console.log('Increase', id);
-  //   },
-  //   onDecrease: (id) => {
-  //     console.log('Decrease', id);
-  //   },
-  //   onDelete: (id) => {
-  //     console.log('Delete', id);
-  //   }
-  // }
-
 
 export default connect(mapStatetoProps, mapDispatchToProps)(ShoppingCartTable);
