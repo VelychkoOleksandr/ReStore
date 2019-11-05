@@ -67,7 +67,7 @@ const updateCart = (state, bookId) => {
 
     const newItem = {
         id: book.id,
-        name: book.title,
+        title: book.title,
         count: 1,
         total: book.price,
         price: book.price
