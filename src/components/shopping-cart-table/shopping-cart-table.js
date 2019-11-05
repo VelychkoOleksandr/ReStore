@@ -6,10 +6,11 @@ import { increaseAmountInCart, decreaseAmountInCart, deleteItemFromCart, calcula
 const ShoppingCartTable = ({ items, total, onIncrease, onDecrease, onDelete, calculateTotal }) => {
   const renderRow = (item, index) => {
     const { id, title, count, total } = item;
+    console.log(item);
     return (
       <tr key={id}>
         <td>{++index}</td>
-        <td>{title}</td>
+        <td className="text-primary booktitle">{title}</td>
         <td>{count}</td>
         <td>${total}</td>
         <td>
